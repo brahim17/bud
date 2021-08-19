@@ -5,10 +5,10 @@ import tools.yaml_config as yc
 directory_path = yc.get_path()
 
 
-def df_extract_ing_releve(init_solde):
+def df_extract_ing_releve(file_name, rules_file_name, init_solde):
 
     ing_csv = pd.read_csv(
-        directory_path + "ing-raw/UYUHH.csv",
+        file_name,
         encoding='latin-1',
         #    error_bad_lines=False,
         sep=";"
@@ -24,7 +24,7 @@ def df_extract_ing_releve(init_solde):
     ret_val['amount'] = ret_val['amount'].apply(lambda x: releve.get_amount(x))
 
     ret_val['category'], ret_val['tier'] = releve.get_tiers_and_category_from_rules_and_memo_series(
-        directory_path + "ing-rules.csv",
+        rules_file_name,
         ret_val['memo']
     )
 

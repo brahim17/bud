@@ -25,14 +25,13 @@ if __name__ == '__main__':
 
     #df_ing = ing.df_extract_ing_releve(0)
     #df_ing.to_csv(directory_path + "ing-raw-1.5.csv")
-
     #view.plot_bar(df_ing)
     #view.plot_pie(df_ing,'category')
 
     #extraction
     file = directory_path + "ing-raw-2.0.csv"
-    #df_ing = ing.df_extract_ing_releve(0)
-    #df_ing.to_csv( file, index=False)
+    df_ing = ing.df_extract_ing_releve(directory_path + "ing_raw.csv", directory_path + "ing-rules.csv",  0)
+    df_ing.to_csv(file, index=False)
 
     df_ing_raw = pd.read_csv(
         file,
