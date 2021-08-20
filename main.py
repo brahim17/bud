@@ -7,6 +7,38 @@ import logging
 
 directory_path = yc.get_path()
 
+
+def extract(bank, raw_file, rules_file, result_file):
+
+    file = directory_path + result_file
+    df_bnk = bank.df_extract_ing_releve(directory_path + raw_file, directory_path + rules_file, 0)
+    df_bnk.to_csv(file, index=False)
+    df_bnk_raw = pd.read_csv(
+        file,
+        encoding='latin-1',
+        #    error_bad_lines=False,
+        sep=","
+    )
+    view.plot_pie(df_bnk_raw, 'category')
+
+
+def extract_ing():
+
+    extract(ing, "ing_raw.csv", "ing-rules.csv", "ing-raw-2.0.csv")
+
+'''
+    file = directory_path + "ing-raw-2.0.csv"
+    df_ing = ing.df_extract_ing_releve(directory_path + "ing_raw.csv", directory_path + "ing-rules.csv", 0)
+    df_ing.to_csv(file, index=False)
+    df_ing_raw = pd.read_csv(
+        file,
+        encoding='latin-1',
+        #    error_bad_lines=False,
+        sep=","
+    )
+    view.plot_pie(df_ing_raw, 'category')
+'''
+
 if __name__ == '__main__':
 
     logging.basicConfig(
@@ -29,18 +61,7 @@ if __name__ == '__main__':
     #view.plot_pie(df_ing,'category')
 
     #extraction
-    file = directory_path + "ing-raw-2.0.csv"
-    df_ing = ing.df_extract_ing_releve(directory_path + "ing_raw.csv", directory_path + "ing-rules.csv",  0)
-    df_ing.to_csv(file, index=False)
-
-    df_ing_raw = pd.read_csv(
-        file,
-        encoding='latin-1',
-        #    error_bad_lines=False,
-        sep=","
-    )
-
-    view.plot_pie(df_ing_raw, 'category')
+    extract_ing()
 
     logging.info("stop")
 
@@ -49,7 +70,6 @@ if __name__ == '__main__':
         content = f.readlines()
     # you may also want to remove whitespace characters like `\n` at the end of each line
     content = [x.strip() for x in content]
-
     my_set = set(content)
 
     with open(directory_path + 'your_file.txt', 'w') as f:
